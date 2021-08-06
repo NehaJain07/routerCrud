@@ -1,0 +1,117 @@
+import React, { Component } from 'react';
+ 
+class App extends Component {
+    constructor(props) {
+        super(props);
+     
+        this.state = {
+            id:'',
+          title: '',
+          body:'',
+          addItem:true,
+          updateItem:false,
+          list:[{
+            id:1,
+            title: 'dolor sit amet',
+            body: 'Accusantium doloribus soluta, necessitatibus unde odio laudantium cum maiores doloremque, excepturi quod assumenda.'
+          },
+          {
+            id:2,
+            title: 'Consequatur iure',
+            body: 'Quibusdam eveniet sunt provident iusto, asperiores eius eligendi animi labore temporibus quas sequi nesciunt ab cumque, consequatur iure officia commodi dignissimos distinctio? Accusantium doloribus soluta, necessitatibus unde odio laudantium cum maiores doloremque, excepturi quod assumenda.'
+          }],
+        };
+      }
+     
+      changeTitle = (e) =>{
+        this.setState({
+        title: e.target.value
+        })
+    }
+    changeBody = (e) =>{
+        this.setState({
+        body: e.target.value
+        })
+    }
+    addItem = () => {
+        const newItems = {
+          id: this.state.list.length + 1, 
+          title: this.state.title, 
+          body: this.state.body
+       }
+      this.setState(prevState => {
+        const list = [...prevState.list, newItems];
+        return { list: list, newItems}
+      })
+      this.resetForm()
+    }
+    resetForm = () => {
+        this.setState({title: "", body: ""});
+    }
+  update=(val1, val2, val3)=>{
+      var v1 = val1
+      var v2= val2
+      var v3 = val3
+      const newItems = {
+        id: v1, 
+        title: v2, 
+        body: v3
+     }
+     console.log(newItems);
+     this.setState({
+         id:v1,
+         title: v2,
+         body: v3,
+         addItem :false,
+         updateItem:true
+     })
+  }
+ updateItem = id => {
+    const newItems = {
+        id: this.state.id, 
+        title: this.state.title, 
+        body: this.state.body
+     }
+     this.setState(prevState => {
+        const list = prevState.list.map((blog) => blog.id === id ? newItems : blog );
+        return { list: list, updateItem:false, addItem:true };
+   })
+   //var idchk= id;
+   /* const lists = this.state.list.map((blog) => blog.id === id ? newItems : blog );
+   console.log(lists) */
+  };
+  render() {
+    return (
+      <div>
+        <ul>
+          {this.state.list.map(item => (
+            <li key={item.id}>{item.title} <p>{item.body}</p> <button
+            type="button"
+            onClick={()=>this.update(item.id, item.title, item.body)}>
+            Update
+          </button></li>
+          ))}
+        </ul>
+ 
+        <div className="mt-3">
+        <div className="form-group">
+              <input type="text" value={this.state.id} className="form-control"disabled />
+          </div>
+          <div className="form-group">
+              <input type="text" value={this.state.title} className="form-control" onChange={this.changeTitle} />
+          </div>
+          <div className="form-group">
+              <textarea  value={this.state.body} cols="30" rows="5" className="form-control" onChange={this.changeBody}></textarea>
+          </div>
+            {this.state.addItem && <button onClick={this.addItem} type="button" disabled={!this.state.body && !this.state.title} className="btn btn-info mr-2">Add list</button>}
+            {this.state.updateItem && <button onClick={()=>this.updateItem(this.state.id)} type="button" disabled={!this.state.body && !this.state.title} className="btn btn-info mr-2">Update List</button>}
+    
+       </div>
+        
+      </div>
+    );
+  }
+}
+ 
+ 
+export default App;
