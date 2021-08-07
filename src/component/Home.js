@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import Details from './Details'
+import AddDetails from './AddDetails'
 export default class Home extends Component {
   
     constructor(props) {
@@ -44,7 +45,7 @@ export default class Home extends Component {
         body: e.target.value
         })
     }
-    addItem = () => {
+    addItemBlog = () => {
         const newItems = {
           id: this.state.list.length + 1, 
           title: this.state.title, 
@@ -52,7 +53,7 @@ export default class Home extends Component {
        }
       this.setState(prevState => {
         const list = [...prevState.list, newItems];
-        return { list: list, newItems}
+        return { list: list, newItems, blogDet: false}
       })
       this.resetForm()
     }
@@ -77,7 +78,7 @@ export default class Home extends Component {
            idShow:true
        })
     }
-   updateItem = id => {
+   updateItemBlog = id => {
       const newItems = {
           id: this.state.id, 
           title: this.state.title, 
@@ -85,7 +86,7 @@ export default class Home extends Component {
        }
        this.setState(prevState => {
           const list = prevState.list.map((blog) => blog.id === id ? newItems : blog );
-          return { list: list, updateItem:false, addItem:true, idShow:false};
+          return { list: list, updateItem:false, addItem:true, idShow:false, blogDet: false};
      })
      this.resetForm()
     }
@@ -113,8 +114,9 @@ export default class Home extends Component {
                   
                     )  
                 }
-                {this.state.blogDet && <Details list={this.state.list} />}
-                <div className="mt-3">
+                {this.state.blogDet && <Details list={this.state.list}/>}
+                 <AddDetails {...this.state} addItemBlog={this.addItemBlog} changeTitle={this.changeTitle}  changeBody={this.changeBody} updateItemBlog={this.updateItemBlog} /> 
+                {/* <div className="mt-3">
             {this.state.idShow && <div className="form-group">
             <input type="text" value={this.state.id} className="form-control"disabled />
             </div>}
@@ -124,11 +126,9 @@ export default class Home extends Component {
               <div className="form-group">
                   <textarea  value={this.state.body} cols="30" rows="5" className="form-control" onChange={this.changeBody}></textarea>
               </div>
-              {this.state.addItem && <button onClick={this.addItem} type="button" disabled={!this.state.body && !this.state.title} className="btn btn-info mr-2">Add list</button>}
-            {this.state.updateItem && <button onClick={()=>this.updateItem(this.state.id)} type="button" disabled={!this.state.body && !this.state.title} className="btn btn-info mr-2">Update List</button>}
-    
-        
-           </div>
+              {this.state.addItem && <button onClick={this.addItemBlog} type="button" disabled={!this.state.body && !this.state.title} className="btn btn-info mr-2">Add list</button>}
+            {this.state.updateItem && <button onClick={()=>this.updateItemBlog(this.state.id)} type="button" disabled={!this.state.body && !this.state.title} className="btn btn-info mr-2">Update List</button>}
+           </div> */}
             </div>
         )
     }

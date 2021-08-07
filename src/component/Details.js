@@ -12,7 +12,7 @@ export default function Details(props) {
          <div key={blogDet.id} className="m-2 border rounded py-2 px-4">
                        <h1 className="text-capitalize mb-2">{blogDet.title}</h1>
                        <p>{blogDet.body}</p>
-                   </div>   
+        </div>   
         </>
     )
 }
